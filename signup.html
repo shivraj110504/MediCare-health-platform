@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - MediCare</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="futuristic-theme.css">
+    <link rel="stylesheet" href="styles/navbar-footer.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .signup-container {
+            padding-top: 120px;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            background: #0a0a14;
+        }
+
+        .signup-form {
+            background: rgba(13, 12, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .brand-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00e5ff, #00b8d4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+            padding: 0;
+        }
+
+        .brand-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0.75rem 0 2rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group .icon {
+            position: absolute;
+            left: -2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            width: 1.25rem;
+            height: 1.25rem;
+            z-index: 2;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            color: #ffffff;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(0, 229, 255, 0.5);
+            box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .error-message {
+            display: none;
+            color: #ff4d4d;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .terms-checkbox input[type="checkbox"] {
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 0.25rem;
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            background: rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+        }
+
+        .terms-checkbox a {
+            color: #00e5ff;
+            text-decoration: none;
+        }
+
+        .terms-checkbox a:hover {
+            text-decoration: underline;
+        }
+
+        .create-account-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #00e5ff, #00b8d4);
+            border: none;
+            border-radius: 0.75rem;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .create-account-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 229, 255, 0.3);
+        }
+
+        .login-link {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .login-link a {
+            color: #00e5ff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 640px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .signup-form {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        /* Toast Container Styles */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toast {
+            display: flex;
+            align-items: center;
+            background: rgba(13, 12, 23, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast.success {
+            border-left: 4px solid #4CAF50;
+        }
+
+        .toast.error {
+            border-left: 4px solid #f44336;
+        }
+
+        .toast.info {
+            border-left: 4px solid #2196F3;
+        }
+
+        .toast-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #ffffff;
+        }
+
+        .toast i {
+            width: 20px;
+            height: 20px;
+        }
+
+        .toast.success i {
+            color: #4CAF50;
+        }
+
+        .toast.error i {
+            color: #f44336;
+        }
+
+        .toast.info i {
+            color: #2196F3;
+        }
+
+        .toast.fade-out {
+            animation: fadeOut 0.3s ease forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div id="navbar-placeholder"></div>
+
+    <div class="signup-container">
+        <form class="signup-form" id="signupForm">
+            <div class="brand">
+                <h1 class="brand-name">MediCare</h1>
+                <p class="brand-subtitle">Join MediCare for personalized healthcare</p>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <i data-lucide="user" class="icon"></i>
+                    <input type="text" class="form-input" id="firstName" placeholder="First Name" required>
+                    <div class="error-message" id="firstNameError"></div>
+                </div>
+                <div class="form-group">
+                    <i data-lucide="user" class="icon"></i>
+                    <input type="text" class="form-input" id="lastName" placeholder="Last Name" required>
+                    <div class="error-message" id="lastNameError"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <i data-lucide="mail" class="icon"></i>
+                <input type="email" class="form-input" id="email" placeholder="Email Address" required>
+                <div class="error-message" id="emailError"></div>
+            </div>
+
+            <div class="form-group">
+                <i data-lucide="phone" class="icon"></i>
+                <input type="tel" class="form-input" id="phone" placeholder="Phone Number" required>
+                <div class="error-message" id="phoneError"></div>
+            </div>
+
+            <div class="form-group">
+                <i data-lucide="lock" class="icon"></i>
+                <input type="password" class="form-input" id="password" placeholder="Password" required>
+                <div class="error-message" id="passwordError"></div>
+            </div>
+
+            <div class="form-group">
+                <i data-lucide="lock" class="icon"></i>
+                <input type="password" class="form-input" id="confirmPassword" placeholder="Confirm Password" required>
+                <div class="error-message" id="confirmPasswordError"></div>
+            </div>
+
+            <label class="terms-checkbox">
+                <input type="checkbox" id="terms" required>
+                I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+            </label>
+
+            <button type="submit" class="create-account-btn">Create Account</button>
+
+            <div class="login-link">
+                Already have an account? <a href="login.html">Login</a>
+            </div>
+        </form>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+    <script src="common.js"></script>
+    <script src="signup.js"></script>
+    <script>
+        // Load navbar and footer
+        fetch('components/navbar-footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-placeholder').innerHTML = data.split('<!-- Footer -->')[0];
+                document.getElementById('footer-placeholder').innerHTML = data.split('<!-- Footer -->')[1];
+                lucide.createIcons();
+
+                // Redirect if already logged in
+                if (localStorage.getItem('isLoggedIn') === 'true') {
+                    window.location.replace('loggedin.html');
+                }
+            });
+    </script>
+</body>
+</html>
